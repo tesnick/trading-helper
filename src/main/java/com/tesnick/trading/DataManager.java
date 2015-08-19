@@ -33,14 +33,28 @@ public class DataManager {
     public static void main(String[] args) throws IOException {
 
         DataManager dataManager = new DataManager();
-        dataManager.getDataForAllTickers();
+        dataManager.getDataForAllTickers("forex");
+    }
+
+    public void getDataForAllTickers(String type) throws IOException {
+
+        logger.info("Getting quotes from scratch...");
+
+        List<Ticker> tickers = tickersReader.getTickers(new File("./src/main/resources/" + type + "-tickers.txt"));
+        getData(tickers);
     }
 
     public void getDataForAllTickers() throws IOException {
 
         logger.info("Getting quotes from scratch...");
 
-        for (Ticker ticker : tickersReader.getTickers()) {
+        List<Ticker> tickers = tickersReader.getTickers();
+        getData(tickers);
+    }
+
+    private void getData(List<Ticker> tickers) throws IOException {
+
+        for (Ticker ticker : tickers) {
             LocalDate oneyearAgo = LocalDate.now().minusYears(1);
             getDataByTicker(oneyearAgo, null, ticker);
         }

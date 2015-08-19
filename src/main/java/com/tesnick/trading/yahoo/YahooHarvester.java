@@ -19,6 +19,8 @@ public class YahooHarvester {
         String finalQuery = query + ticker + "\" and startDate = \""
                 + startDate + "\" and endDate = \"" + endDate + "\"" + query2;
 
+        logger.info("Executing query against -> " + finalQuery);
+
         YahooResult result = restTemplate.getForObject(finalQuery, YahooResult.class);
 
         logger.info("Received " + result.getQuery().getCount() + " results.");
