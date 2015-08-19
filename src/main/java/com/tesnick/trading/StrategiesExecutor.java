@@ -1,6 +1,7 @@
-package com.tesnick.trading.strategies;
+package com.tesnick.trading;
 
 import com.tesnick.trading.beans.YahooResults;
+import com.tesnick.trading.strategies.*;
 import com.tesnick.trading.utils.DateFilter;
 import com.tesnick.trading.utils.FileNamer;
 import com.tesnick.trading.utils.HistoricalQuotesMapper;
@@ -24,7 +25,7 @@ public class StrategiesExecutor {
 
     public static void main(String[] args) throws IOException {
         StrategiesExecutor findBestStrategy = new StrategiesExecutor();
-        findBestStrategy.find("TRE.MC");
+        findBestStrategy.find("A3M.MC");
     }
 
     // Indicators:

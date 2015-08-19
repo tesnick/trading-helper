@@ -8,19 +8,13 @@ public class FileNamer {
     public static File fromTickerAndDate(String name, String startDate,
                                          String endDate) {
 
-        File workingDirectory = new File(".");
-        if (workingDirectory.getAbsolutePath().contains("analysis")) {
-            return new File("./data/stock_" + name + "_" + startDate + "_"
+        return new File("./data/stock_" + name + "_" + startDate + "_"
                     + endDate + ".json");
-        } else {
-            return new File("./data-analysis/data/stock_" + name + "_" + startDate + "_"
-                    + endDate + ".json");
-        }
     }
 
     public static File fromTickerAndDateToYahooData(String name, String startDate,
                                                     String endDate) {
-        return new File("./data-analysis/yahooData/stock_" + name + "_" + startDate + "_"
+        return new File("./yahooData/stock_" + name + "_" + startDate + "_"
                 + endDate + ".json");
     }
 
