@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class CrossFinderTest {
 
-    private CrossFinder crossFinder = new CrossFinder();
+    private final CrossFinder crossFinder = new CrossFinder();
 
     @Test
     public void crossFinderPositiveTest() {

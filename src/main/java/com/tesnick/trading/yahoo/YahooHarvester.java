@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class YahooHarvester {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 
     private final String query = "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.historicaldata where symbol = \"";
     private final String query2 = "| reverse()&format=json&diagnostics=false&env=store://datatables.org/alltableswithkeys";
@@ -16,8 +16,7 @@ public class YahooHarvester {
 
     public Query getData(String ticker, String startDate, String endDate) {
 
-        String finalQuery = query + ticker + "\" and startDate = \""
-                + startDate + "\" and endDate = \"" + endDate + "\"" + query2;
+        String finalQuery = query + ticker + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"" + query2;
 
         logger.info("Executing query against -> " + finalQuery);
 
@@ -26,30 +25,31 @@ public class YahooHarvester {
         logger.info("Received " + result.getQuery().getCount() + " results.");
 
         if (result.getQuery().getCount() > 0) {
-            for (Quote quote : result.getQuery().getResults().getQuote()) {
-                logger.info(quote);
-            }
 
+            result.getQuery().getResults().getQuote().forEach(logger::debug);
             return result.getQuery();
         }
 
         return null;
     }
 
-    public QueryOneElement getDataForOneDay(String ticker, String startDate,
-                                            String endDate) {
+    public QueryOneElement getDataForOneDay(String ticker, String startDate, String endDate) {
 
-        String finalQuery = query + ticker + "\" and startDate = \""
-                + startDate + "\" and endDate = \"" + endDate + "\"" + query2;
+        String finalQuery = query + ticker + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"" + query2;
 
-        YahooResultOneElement result = restTemplate.getForObject(finalQuery,
-                YahooResultOneElement.class);
+        logger.info("Executing query against -> " + finalQuery);
+
+        YahooResultOneElement result = restTemplate.getForObject(finalQuery, YahooResultOneElement.class);
 
         logger.info("Received " + result.getQuery().getCount() + " results.");
 
-        Quote quote = result.getQuery().getResults().getQuote();
-        logger.info(quote);
+        if (result.getQuery().getCount() > 0) {
+            Quote quote = result.getQuery().getResults().getQuote();
+            logger.debug(quote);
 
-        return result.getQuery();
+            return result.getQuery();
+        }
+
+        return null;
     }
 }

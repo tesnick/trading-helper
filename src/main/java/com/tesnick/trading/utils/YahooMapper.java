@@ -18,7 +18,7 @@ public class YahooMapper {
         }
 
         EnhancedData data = new EnhancedData();
-        List<EnhancedQuote> enhancedQuotes = new ArrayList<EnhancedQuote>();
+        List<EnhancedQuote> enhancedQuotes = new ArrayList<>();
 
         data.setTicker(results.getQuote().get(0).getSymbol());
 

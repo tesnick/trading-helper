@@ -17,11 +17,9 @@ import java.util.*;
 
 public class StrategiesExecutor {
 
-    private static ResultsMapper resultsMapper = new ResultsMapper();
-
-    protected final Log logger = LogFactory.getLog(getClass());
-
-    private static DateFilter dateFilter = new DateFilter();
+    private static final ResultsMapper resultsMapper = new ResultsMapper();
+    private static final DateFilter dateFilter = new DateFilter();
+    private final Log logger = LogFactory.getLog(getClass());
 
     public static void main(String[] args) throws IOException {
         StrategiesExecutor findBestStrategy = new StrategiesExecutor();
@@ -73,12 +71,12 @@ public class StrategiesExecutor {
 
         Calendar dateStart = new GregorianCalendar(2013, 5, 7);
         Calendar dateEnd = new GregorianCalendar(2015, 5, 5);
-        dateFilter.filter(yahooResults, dateStart,dateEnd);
+        dateFilter.filter(yahooResults, dateStart, dateEnd);
 
         // convert to timeSeries object
         TimeSeries series = HistoricalQuotesMapper.fromHistoricalQuoteToSeries(yahooResults.getHistoricalQuotes());
 
-        for(TesnickStrategy tesnickStrategy : strategies){
+        for (TesnickStrategy tesnickStrategy : strategies) {
 
             double currentProfitStrategy = executeStrategy(series, tesnickStrategy.buildStrategy(series), tesnickStrategy.getName());
             tesnickStrategy.setProfit(currentProfitStrategy);
@@ -86,7 +84,7 @@ public class StrategiesExecutor {
         }
 
         Collections.sort(strategies, (o1, o2) -> o2.getProfit().compareTo(o1.getProfit()));
-        for(TesnickStrategy tesnickStrategy : strategies){
+        for (TesnickStrategy tesnickStrategy : strategies) {
 
             logger.info("Strategy " + tesnickStrategy.getName() + " has this profit -> " + tesnickStrategy.getProfit());
         }
@@ -108,7 +106,7 @@ public class StrategiesExecutor {
         strategies.add(new StochasticStrategy3());
         strategies.add(new WilliamsStrategy());
 
-        return  strategies;
+        return strategies;
     }
 
 }

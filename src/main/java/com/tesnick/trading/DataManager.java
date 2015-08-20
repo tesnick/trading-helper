@@ -23,12 +23,12 @@ import java.util.List;
 
 public class DataManager {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+    private final Log logger = LogFactory.getLog(getClass());
 
-    private DateFormatter dateFormatter = new DateFormatter();
-    private YahooHarvester yahooHarvester = new YahooHarvester();
-    private TickersReader tickersReader = new TickersReader();
-    private ResultsMapper resultsMapper = new ResultsMapper();
+    private final DateFormatter dateFormatter = new DateFormatter();
+    private final YahooHarvester yahooHarvester = new YahooHarvester();
+    private final TickersReader tickersReader = new TickersReader();
+    private final ResultsMapper resultsMapper = new ResultsMapper();
 
     public static void main(String[] args) throws IOException {
 
@@ -99,8 +99,7 @@ public class DataManager {
 
             Results results = resultsMapper.fromFileToJava(file);
 
-            System.out.println("There are " + results.getQuote().size()
-                    + " quotes.");
+            logger.info("There are " + results.getQuote().size() + " quotes.");
 
             Period period = getPeriodToBeUpdated(results, file);
 
@@ -155,11 +154,9 @@ public class DataManager {
         String endDate = null;
         String symbol = null;
         if (results.getQuote().size() == 0) {
-            throw new IllegalArgumentException("File " + file.getAbsolutePath()
-                    + " is empty");
+            throw new IllegalArgumentException("File " + file.getAbsolutePath() + " is empty");
         } else if (results.getQuote().size() == 1) {
-            throw new IllegalArgumentException("File " + file.getAbsolutePath()
-                    + " has only one value (two minimum)");
+            throw new IllegalArgumentException("File " + file.getAbsolutePath() + " has only one value (two minimum)");
         } else if (results.getQuote().size() > 1) {
             symbol = results.getQuote().get(0).getSymbol();
 
@@ -181,11 +178,11 @@ public class DataManager {
 
         logger.info("Using quotes from " + oneYearAgo);
 
-        List<Quote> valuableQuotes = new ArrayList<Quote>();
+        List<Quote> valuableQuotes = new ArrayList<>();
         for (Quote quote : results.getQuote()) {
             LocalDate quoteDate = LocalDate.parse(quote.getDate(),
                     dateFormatter.getFormatter());
-            // We are intested only on quotes from one year ago
+            // We are interested only on quotes from one year ago
             if (quoteDate.compareTo(oneYearAgo) > 0) {
                 valuableQuotes.add(quote);
             }

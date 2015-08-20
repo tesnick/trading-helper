@@ -10,9 +10,7 @@ import eu.verdelhan.ta4j.trading.rules.OverIndicatorRule;
 import eu.verdelhan.ta4j.trading.rules.UnderIndicatorRule;
 
 /**
- * Apartado Interpretación:
  * http://es.wikipedia.org/wiki/%C3%8Dndice_RSI
- * Created by tesnick on 6/06/15.
  */
 public class RSIStrategy2080 implements TesnickStrategy {
 
@@ -44,12 +42,12 @@ public class RSIStrategy2080 implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }

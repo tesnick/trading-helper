@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class DataManagerTest {
 
-    private DataManager application = new DataManager();
+    private final DataManager application = new DataManager();
 
     @Test
     @Ignore

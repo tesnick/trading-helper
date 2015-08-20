@@ -11,7 +11,6 @@ import eu.verdelhan.ta4j.trading.rules.CrossedUpIndicatorRule;
 
 /**
  * http://es.wikipedia.org/wiki/Momentum_%28an%C3%A1lisis_t%C3%A9cnico%29
- * Created by tesnick on 6/06/15.
  */
 public class RoCStrategy implements TesnickStrategy {
 
@@ -43,12 +42,12 @@ public class RoCStrategy implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }

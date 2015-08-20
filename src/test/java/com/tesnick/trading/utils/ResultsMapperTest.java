@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ResultsMapperTest {
 
-    private ResultsMapper resultsSerializer = new ResultsMapper();
+    private final ResultsMapper resultsSerializer = new ResultsMapper();
 
     @Test
     @Ignore

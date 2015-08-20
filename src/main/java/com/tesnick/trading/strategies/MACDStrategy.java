@@ -10,9 +10,7 @@ import eu.verdelhan.ta4j.trading.rules.CrossedDownIndicatorRule;
 import eu.verdelhan.ta4j.trading.rules.CrossedUpIndicatorRule;
 
 /**
- * Apartado interpretación:
  * http://es.wikipedia.org/wiki/MACD
- * Created by tesnick on 6/06/15.
  */
 public class MACDStrategy implements TesnickStrategy {
 
@@ -45,12 +43,12 @@ public class MACDStrategy implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }

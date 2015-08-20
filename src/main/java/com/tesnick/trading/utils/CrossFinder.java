@@ -4,21 +4,15 @@ import com.tesnick.trading.dto.CrossingValue;
 import com.tesnick.trading.dto.EnhancedData;
 import com.tesnick.trading.dto.EnhancedQuote;
 import com.tesnick.trading.dto.Tendency;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CrossFinder {
 
-    protected final Log logger = LogFactory.getLog(getClass());
-
-    private DateFormatter dateFormatter = new DateFormatter();
-
     public List<CrossingValue> findCrossings(EnhancedData enhancedData) {
 
-        List<CrossingValue> crosseds = new ArrayList<CrossingValue>();
+        List<CrossingValue> crossings = new ArrayList<>();
 
         double m6OldValue = enhancedData.getQuotes().get(0).getMa6();
         double m70OldValue = enhancedData.getQuotes().get(0).getMa70();
@@ -39,7 +33,7 @@ public class CrossFinder {
                 crossingValue.setM6Tendency(findTendency(m6OldValue, m6NewValue));
                 crossingValue.setM70Tendency(findTendency(m70OldValue, m70NewValue));
 
-                crosseds.add(crossingValue);
+                crossings.add(crossingValue);
             }
 
             m6OldValue = m6NewValue;
@@ -47,17 +41,16 @@ public class CrossFinder {
             dateOld = dateNew;
         }
 
-        return crosseds;
-
+        return crossings;
     }
 
-    public Tendency findTendency(double oldValue, double newValue) {
+    private Tendency findTendency(double oldValue, double newValue) {
         if (oldValue == newValue) {
-            return Tendency.PLANA;
+            return Tendency.NO_TENDENCY;
         } else if (oldValue < newValue) {
-            return Tendency.ALCISTA;
+            return Tendency.BULLISH;
         } else {
-            return Tendency.BAJISTA;
+            return Tendency.BEARISH;
         }
     }
 
@@ -74,10 +67,6 @@ public class CrossFinder {
             firstBiggerNew = true;
         }
 
-        if (firstBiggerOld != firstBiggerNew)
-            return true;
-
-        return false;
+        return firstBiggerOld != firstBiggerNew;
     }
-
 }

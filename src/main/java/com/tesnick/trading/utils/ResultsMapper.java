@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class ResultsMapper {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public Results fromFileToJava(File file) throws IOException {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,

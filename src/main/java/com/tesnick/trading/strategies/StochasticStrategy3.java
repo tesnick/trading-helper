@@ -10,7 +10,6 @@ import eu.verdelhan.ta4j.trading.rules.CrossedUpIndicatorRule;
 
 /**
  * http://ciberconta.unizar.es/leccion/fin005/570.HTM
- * Created by tesnick on 6/06/15.
  */
 public class StochasticStrategy3 implements TesnickStrategy {
 
@@ -41,12 +40,12 @@ public class StochasticStrategy3 implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }

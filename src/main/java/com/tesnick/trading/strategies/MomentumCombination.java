@@ -13,9 +13,6 @@ import eu.verdelhan.ta4j.trading.rules.CrossedUpIndicatorRule;
 import eu.verdelhan.ta4j.trading.rules.OverIndicatorRule;
 import eu.verdelhan.ta4j.trading.rules.UnderIndicatorRule;
 
-/**
- * Created by tesnick on 6/06/15.
- */
 public class MomentumCombination implements TesnickStrategy {
 
     private String name = "MomentumCombination";
@@ -54,12 +51,12 @@ public class MomentumCombination implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class YahooHarvesterTest {
 
-    private YahooHarvester harvester = new YahooHarvester();
+    private final YahooHarvester harvester = new YahooHarvester();
 
     @Test
     @Ignore

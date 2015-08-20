@@ -14,10 +14,10 @@ import java.util.GregorianCalendar;
 
 public class DateFilterTest {
 
-    protected static final Log logger = LogFactory.getLog(DateFilterTest.class);
+    private static final Log logger = LogFactory.getLog(DateFilterTest.class);
 
-    private DateFilter dateFilter = new DateFilter();
-    private ResultsMapper resultsMapper = new ResultsMapper();
+    private final DateFilter dateFilter = new DateFilter();
+    private final ResultsMapper resultsMapper = new ResultsMapper();
 
     @Test
     public void filterTest() throws IOException {

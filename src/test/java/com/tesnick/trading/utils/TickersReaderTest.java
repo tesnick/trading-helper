@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TickersReaderTest {
 
-    private TickersReader reader = new TickersReader();
+    private final TickersReader reader = new TickersReader();
 
     @Test
     public void getTickersTest() throws IOException {

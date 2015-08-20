@@ -2,7 +2,6 @@ package com.tesnick.trading;
 
 import com.tesnick.trading.beans.Results;
 import com.tesnick.trading.dto.CrossingValue;
-import com.tesnick.trading.dto.CrossingValueComparator;
 import com.tesnick.trading.dto.EnhancedData;
 import com.tesnick.trading.dto.Tendency;
 import com.tesnick.trading.utils.*;
@@ -20,15 +19,14 @@ import java.util.List;
 
 public class FindLastCrossings {
 
-    protected final Log logger = LogFactory.getLog(getClass());
-
-    private ResultsMapper resultsMapper = new ResultsMapper();
-    private YahooMapper yahooMapper = new YahooMapper();
-    private CrossFinder crossFinder = new CrossFinder();
-    private DateFormatter dateFormatter = new DateFormatter();
-    private StockFinder stockFinder = new StockFinder();
-    private PercentageDiff percentageDiff = new PercentageDiff();
-    private static DataManager application = new DataManager();
+    private static final DataManager application = new DataManager();
+    private final Log logger = LogFactory.getLog(getClass());
+    private final ResultsMapper resultsMapper = new ResultsMapper();
+    private final YahooMapper yahooMapper = new YahooMapper();
+    private final CrossFinder crossFinder = new CrossFinder();
+    private final DateFormatter dateFormatter = new DateFormatter();
+    private final StockFinder stockFinder = new StockFinder();
+    private final PercentageDiffGetter percentageDiff = new PercentageDiffGetter();
 
     public static void main(String[] args) throws IOException, ParseException {
 
@@ -36,7 +34,7 @@ public class FindLastCrossings {
 
         FindLastCrossings findLastCrossings = new FindLastCrossings();
 
-        List<CrossingValue> sortedCrossings = findLastCrossings.returnCrossingsAlcistasByFolder();
+        List<CrossingValue> sortedCrossings = findLastCrossings.returnCrossingsByFolder();
 
         Collections.sort(sortedCrossings, new CrossingValueComparator());
 
@@ -46,9 +44,9 @@ public class FindLastCrossings {
         }
     }
 
-    public List<CrossingValue> returnCrossingsAlcistasByFolder() throws IOException, ParseException {
+    public List<CrossingValue> returnCrossingsByFolder() throws IOException {
 
-        List<CrossingValue> crossings = new ArrayList<CrossingValue>();
+        List<CrossingValue> crossings = new ArrayList<>();
         int numberOfCompanies = 0;
         for (File file : new File("./data").listFiles()) {
 
@@ -69,17 +67,15 @@ public class FindLastCrossings {
             if (!allCrossings.isEmpty()) {
                 // get last cross
                 CrossingValue lastCross = allCrossings.get(allCrossings.size() - 1);
-                if ((lastCross.getM6Tendency() == Tendency.ALCISTA
-                        && lastCross.getM70Tendency() == Tendency.ALCISTA) ||
-                        (lastCross.getM6Tendency() == Tendency.BAJISTA
-                                && lastCross.getM70Tendency() == Tendency.BAJISTA)) {
+                if ((lastCross.getM6Tendency() == Tendency.BULLISH
+                        && lastCross.getM70Tendency() == Tendency.BULLISH) ||
+                        (lastCross.getM6Tendency() == Tendency.BEARISH
+                                && lastCross.getM70Tendency() == Tendency.BEARISH)) {
 
                     // Check if difference between
                     // (current stock value <<-->> crossing) < 3%
-                    String symbol = lastCross.getTicker();
-
                     Double lastValue = Double.parseDouble(stockFinder
-                            .getLastValue(symbol, data));
+                            .getLastValue(data));
 
                     if (percentageDiff
                             .isMinorOfPercentage(lastCross, lastValue)) {
@@ -91,8 +87,8 @@ public class FindLastCrossings {
                         if (days < 7) {
 
                             // check pending moving averages
-                            double pendingM6 = PendingCalculator.getPendent(lastCross.getM6OldValue(), lastCross.getM6NewValue(), lastCross.getOldDate(), lastCross.getDate());
-                            double pendingM70 = PendingCalculator.getPendent(lastCross.getM70OldValue(), lastCross.getM70NewValue(), lastCross.getOldDate(), lastCross.getDate());
+                            double pendingM6 = PendingCalculator.getPendent(lastCross.getM6OldValue(), lastCross.getM6NewValue());
+                            double pendingM70 = PendingCalculator.getPendent(lastCross.getM70OldValue(), lastCross.getM70NewValue());
 
                             if (Math.abs(pendingM6) > 0.1 && Math.abs(pendingM70) > 0.1) {
                                 //System.out.println("VALID symbol -> " + symbol + ", pendingM6 -> " + pendingM6);

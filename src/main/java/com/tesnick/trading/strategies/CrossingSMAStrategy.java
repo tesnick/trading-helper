@@ -8,9 +8,6 @@ import eu.verdelhan.ta4j.indicators.trackers.SMAIndicator;
 import eu.verdelhan.ta4j.trading.rules.CrossedDownIndicatorRule;
 import eu.verdelhan.ta4j.trading.rules.CrossedUpIndicatorRule;
 
-/**
- * Created by tesnick on 6/06/15.
- */
 public class CrossingSMAStrategy implements TesnickStrategy {
 
     private String name = "CrossingSMAStrategy";
@@ -42,12 +39,12 @@ public class CrossingSMAStrategy implements TesnickStrategy {
     }
 
     @Override
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public Double getProfit() {
+        return profit;
     }
 
     @Override
-    public Double getProfit() {
-        return profit;
+    public void setProfit(Double profit) {
+        this.profit = profit;
     }
 }
